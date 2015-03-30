@@ -8,15 +8,17 @@ router.get('/', function (req, res, next){
   promises = [
     models.Hotel.find({}).exec(),
     models.ThingToDo.find({}).exec(),
-    models.Restaurant.find({}).exec()
+    models.Restaurant.find({}).exec(),
+    models.Day.find({}).exec()
   ];
   // `.all` waits for all promises to resolve,
   // `.spread` spreads results over parameters
-  bluebird.all(promises).spread(function(hotels, things, cafes){
+  bluebird.all(promises).spread(function(hotels, things, cafes, days){
     res.render('index', {
       hotels: hotels,
       thingsToDo: things,
-      restaurants: cafes
+      restaurants: cafes,
+      days: days
     });
   }).catch(next); // any errors, pass to next
 });
