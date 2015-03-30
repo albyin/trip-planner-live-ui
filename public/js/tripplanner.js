@@ -103,17 +103,17 @@ $( document ).ready(function() {
 		var $button= $(this);
 		// find out which day/and what was the last day
 
-
-
-
 		//how many days to we have?
 		var numOfDays = $('.day-buttons').children().length-1;
 
 		//if we clicked a plus button- add a new day button/day array/id count
 		if($button.text() =='+'){
+      //ADD NEW DAY AND DAY BUTTON
 			$button.prev().after('<button class="btn btn-circle day-btn">'+(numOfDays+1)+'</button>');
 
 			daysArray[numOfDays] = new Day();
+
+      $.post('/days', function (data){ console.log("POST RESPONSE DATA", data);});
 
 		}
 		else{
