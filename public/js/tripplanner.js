@@ -1,6 +1,6 @@
 $( document ).ready(function() {
 
-      var currDay = 0;
+      var currDay = 1;
       initialize_gmaps();
     	var map;
 
@@ -84,13 +84,11 @@ $( document ).ready(function() {
 
   var renderMap = function (currDay){
     $.get('/days/'+currDay, function (data){
-      console.log("RENDERMAP DATA: ",data);
       //data is the Day object that is at currDay
 
       var locationArr;
 
       if (data.hotel){
-        console.log(data.hotel.place[0].location);
         var opts = {icon: '/images/lodging_0star.png'};
         var locationArr = data.hotel.place[0].location;
         drawLocation(locationArr, opts);
@@ -106,6 +104,11 @@ $( document ).ready(function() {
       }
       if (data.thingsToDo){
         var opts = {icon: '/images/star-3.png'};
+
+        for (var i = 0; i < data.thingToDo.length; i++) {
+          var locationArr = data.thingToDo[i].place[0].location;
+          drawLocation(locationArr, opts);
+        }
       }
 
       //get hotel coord
@@ -271,14 +274,11 @@ $( document ).ready(function() {
     // initialize a new Google Map with the options
     map = new google.maps.Map(map_canvas_obj, mapOptions);
 
-    console.log("got here");
     $.get("/days/", function (days){
-      console.log("entered $.get/days in gmaps", days);
       if (days.length > 0){
         renderMap();
       }
       else {
-        console.log("should be here");
         $.post("/days/");
       }
     });

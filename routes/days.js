@@ -21,9 +21,9 @@ dayRouter.get('/', function (req, res, next) {
 dayRouter.post('/', function (req, res, next) {
     // creates a new day and serves it as json
     // save day to day Schema, return saved day as 
-    console.log("req.params.body, ", req.params.body);
     var day = new Day();
-    
+    day.number = currDay;
+    currDay++;
     day.save(function (err, savedDay) {
         if (err) return next(err);
         res.json( savedDay);
@@ -53,8 +53,8 @@ dayRouter.use('/:dayNum', attractionRouter);
 
 // POST /days/:id/hotel (creates a reference to the hotel)
 attractionRouter.post('/hotel', function (req, res, next) {
-
     Day.findOne({ 'number': req.params.dayNum }, function (err, day) {
+        
         if (err) return next(err);
       
         day.hotel = req.body._id;
